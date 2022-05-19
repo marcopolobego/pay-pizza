@@ -1,0 +1,24 @@
+.progress-container{
+ background-color: #ededed;
+ margin: 10px;
+ border-radius: 4px;
+ height: 20px;
+ position: relative;
+ overflow: hidden;
+
+ .progress{
+  background-color: #ffbe00;
+  height: 100%;
+  position: absolute;
+  min-width: 3px;
+ }
+
+ .percentage{
+  color: black;
+  font-weight: 600;
+  position: relative;
+  text-align: center;
+  min-width: 50px;
+
+ }
+}
