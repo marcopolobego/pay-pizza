@@ -1,5 +1,6 @@
 import "./App.scss";
 import ProgressBar from "./components/ProgressBar/ProgressBar";
+import UserCard from "./components/UserCard/UserCard";
 import * as React from "react";
 interface Player {
   name: string;
@@ -99,15 +100,29 @@ class App extends React.Component<AppProps, AppState> {
         <div>
           <h2>Participants:</h2>
 
-          {players.map((player) => (
-            <div key={player.name} className="player-info">
-              <div>{player.name}</div>
-              <ProgressBar
-                percentage={(player.toPay / pizzasPrice) * 100}
-                label={`$${player.toPay.toFixed(1) || 0}`}
-              ></ProgressBar>
-            </div>
-          ))}
+          <div className="users">
+            <UserCard
+              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
+            ></UserCard>
+            <UserCard
+              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
+            ></UserCard>
+            <UserCard
+              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
+            ></UserCard>
+            <UserCard
+              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
+            ></UserCard>
+            <UserCard
+              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
+            ></UserCard>
+            <UserCard
+              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
+            ></UserCard>
+            <UserCard
+              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
+            ></UserCard>
+          </div>
         </div>
       </div>
     );

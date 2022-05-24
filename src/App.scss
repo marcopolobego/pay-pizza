@@ -1,9 +1,10 @@
-.player-info{
-  display: grid;
-  grid-template-columns: 1fr fill;
-
-}
-
 .wrapper{
   margin: 0px 50px;
+}
+
+
+.users{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(394px, 1fr));
+  gap: 24px;
 }
