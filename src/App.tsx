@@ -19,32 +19,32 @@ class App extends React.Component<AppProps, AppState> {
     players: [
       {
         name: "Marcos",
-        delays: 1,
+        delays: 0,
         toPay: 0,
       },
       {
         name: "Marco",
-        delays: 3,
+        delays: 0,
         toPay: 0,
       },
       {
         name: "Julio",
-        delays: 7,
+        delays: 1,
         toPay: 0,
       },
       {
         name: "Alberto",
-        delays: 2,
+        delays: 1,
         toPay: 0,
       },
       {
         name: "Omar",
-        delays: 7,
+        delays: 0,
         toPay: 0,
       },
       {
         name: "Federico",
-        delays: 2,
+        delays: 0,
         toPay: 0,
       },
       {
@@ -54,16 +54,15 @@ class App extends React.Component<AppProps, AppState> {
       },
       {
         name: "Ignacio",
-        delays: 3,
+        delays: 0,
         toPay: 0,
       },
     ],
-    pizzasPrice: 0,
+    pizzasPrice: 100,
   };
 
-  calculateAmount = ({ target }: React.SyntheticEvent) => {
+  calculateAmount = (pizzasPrice: number) => {
     const { players } = this.state;
-    const pizzasPrice = parseFloat((target as HTMLInputElement).value);
     this.setState({ pizzasPrice });
 
     const totalDelays = players
@@ -83,6 +82,10 @@ class App extends React.Component<AppProps, AppState> {
     this.setState({ players: toPay });
   };
 
+  componentDidMount(){
+    this.calculateAmount(this.state.pizzasPrice);
+  }
+
   render() {
     const { players, pizzasPrice } = this.state;
     return (
@@ -92,7 +95,7 @@ class App extends React.Component<AppProps, AppState> {
           <div>Pizzas price:</div>
           <input
             value={this.state.pizzasPrice}
-            onChange={this.calculateAmount}
+            onChange={({ target }: React.SyntheticEvent) => this.calculateAmount(parseFloat((target as HTMLInputElement).value))}
             type="number"
           />
         </div>
