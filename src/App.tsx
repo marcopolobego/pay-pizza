@@ -24,12 +24,12 @@ class App extends React.Component<AppProps, AppState> {
       },
       {
         name: "Marco",
-        delays: 0,
+        delays: 1,
         toPay: 0,
       },
       {
         name: "Julio",
-        delays: 1,
+        delays: 2,
         toPay: 0,
       },
       {
@@ -49,7 +49,7 @@ class App extends React.Component<AppProps, AppState> {
       },
       {
         name: "Charly",
-        delays: 0,
+        delays: 1,
         toPay: 0,
       },
       {
