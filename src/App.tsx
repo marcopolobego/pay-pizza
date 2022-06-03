@@ -39,7 +39,7 @@ class App extends React.Component<AppProps, AppState> {
       },
       {
         name: "Omar",
-        delays: 1,
+        delays: 2,
         toPay: 0,
       },
       {
