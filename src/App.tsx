@@ -104,7 +104,7 @@ class App extends React.Component<AppProps, AppState> {
 
           {players.map((player) => (
             <div key={player.name} className="player-info">
-              <div>{player.name} <span className="delays">{player.delays} delays</span></div>
+              <div>{player.name} <span className="delays">{player.delays} delay{player.delays === 1 ? '' : 's'}</span></div>
               <ProgressBar
                 percentage={(player.toPay / pizzasPrice) * 100}
                 label={`$${player.toPay.toFixed(1) || 0}`}
