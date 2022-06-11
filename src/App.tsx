@@ -75,7 +75,7 @@ class App extends React.Component<AppProps, AppState> {
     const unitPrice = pizzasPrice / totalDelays;
 
     const toPay = players.map((player): Player => {
-      player.toPay = player.delays * unitPrice;
+      player.toPay = player.delays * unitPrice || 0;
       return player;
     });
 
@@ -95,7 +95,11 @@ class App extends React.Component<AppProps, AppState> {
           <div>Pizzas price:</div>
           <input
             value={this.state.pizzasPrice}
-            onChange={({ target }: React.SyntheticEvent) => this.calculateAmount(parseFloat((target as HTMLInputElement).value))}
+            onChange={({ target }: React.SyntheticEvent) =>
+              this.calculateAmount(
+                parseFloat((target as HTMLInputElement).value)
+              )
+            }
             type="number"
           />
         </div>
@@ -104,7 +108,12 @@ class App extends React.Component<AppProps, AppState> {
 
           {players.map((player) => (
             <div key={player.name} className="player-info">
-              <div>{player.name} <span className="delays">{player.delays} delay{player.delays === 1 ? '' : 's'}</span></div>
+              <div>
+                {player.name}
+                <span className="delays">
+                  {player.delays} delay{player.delays === 1 ? "" : "s"}
+                </span>
+              </div>
               <ProgressBar
                 percentage={(player.toPay / pizzasPrice) * 100}
                 label={`$${player.toPay.toFixed(1) || 0}`}
