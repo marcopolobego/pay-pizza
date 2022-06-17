@@ -77,7 +77,7 @@ class App extends React.Component<AppProps, AppState> {
     const toPay = players.map((player): Player => {
       player.toPay = player.delays * unitPrice || 0;
       return player;
-    });
+    }).sort((playerA: any, playerB: any) => playerB.delays - playerA.delays);
 
     this.setState({ players: toPay });
   };
