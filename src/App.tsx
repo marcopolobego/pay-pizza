@@ -58,7 +58,7 @@ class App extends React.Component<AppProps, AppState> {
         toPay: 0,
       },
     ],
-    pizzasPrice: 100,
+    pizzasPrice: 1220,
   };
 
   calculateAmount = (pizzasPrice: number) => {
