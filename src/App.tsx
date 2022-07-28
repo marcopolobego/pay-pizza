@@ -20,37 +20,37 @@ class App extends React.Component<AppProps, AppState> {
     players: [
       {
         name: "Marcos",
-        delays: 1,
+        delays: 0,
         toPay: 0,
       },
       {
         name: "Marco",
-        delays: 3,
+        delays: 1,
         toPay: 0,
       },
       {
         name: "Julio",
-        delays: 7,
+        delays: 0,
         toPay: 0,
       },
       {
         name: "Alberto",
-        delays: 2,
+        delays: 3,
         toPay: 0,
       },
       {
         name: "Omar",
-        delays: 7,
+        delays: 5,
         toPay: 0,
       },
       {
         name: "Federico",
-        delays: 2,
+        delays: 1,
         toPay: 0,
       },
       {
         name: "Charly",
-        delays: 0,
+        delays: 2,
         toPay: 0,
       },
       {
@@ -59,12 +59,11 @@ class App extends React.Component<AppProps, AppState> {
         toPay: 0,
       },
     ],
-    pizzasPrice: 0,
+    pizzasPrice: 1220,
   };
 
-  calculateAmount = ({ target }: React.SyntheticEvent) => {
+  calculateAmount = (pizzasPrice: number) => {
     const { players } = this.state;
-    const pizzasPrice = parseFloat((target as HTMLInputElement).value);
     this.setState({ pizzasPrice });
 
     const totalDelays = players
@@ -76,13 +75,19 @@ class App extends React.Component<AppProps, AppState> {
 
     const unitPrice = pizzasPrice / totalDelays;
 
-    const toPay = players.map((player): Player => {
-      player.toPay = player.delays * unitPrice;
-      return player;
-    });
+    const toPay = players
+      .map((player): Player => {
+        player.toPay = player.delays * unitPrice || 0;
+        return player;
+      })
+      .sort((playerA: any, playerB: any) => playerB.delays - playerA.delays);
 
     this.setState({ players: toPay });
   };
+
+  componentDidMount() {
+    this.calculateAmount(this.state.pizzasPrice);
+  }
 
   render() {
     const { players, pizzasPrice } = this.state;
@@ -93,36 +98,31 @@ class App extends React.Component<AppProps, AppState> {
           <div>Pizzas price:</div>
           <input
             value={this.state.pizzasPrice}
-            onChange={this.calculateAmount}
+            onChange={({ target }: React.SyntheticEvent) =>
+              this.calculateAmount(
+                parseFloat((target as HTMLInputElement).value)
+              )
+            }
             type="number"
           />
         </div>
         <div>
           <h2>Participants:</h2>
 
-          <div className="users">
-            <UserCard
-              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
-            ></UserCard>
-            <UserCard
-              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
-            ></UserCard>
-            <UserCard
-              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
-            ></UserCard>
-            <UserCard
-              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
-            ></UserCard>
-            <UserCard
-              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
-            ></UserCard>
-            <UserCard
-              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
-            ></UserCard>
-            <UserCard
-              userInfo={{ user_name: "Ignacio Ambia", delays: [] }}
-            ></UserCard>
-          </div>
+          {players.map((player) => (
+            <div key={player.name} className="player-info">
+              <div>
+                {player.name}
+                <span className="delays">
+                  {player.delays} delay{player.delays === 1 ? "" : "s"}
+                </span>
+              </div>
+              <ProgressBar
+                percentage={(player.toPay / pizzasPrice) * 100}
+                label={`$${player.toPay.toFixed(1) || 0}`}
+              ></ProgressBar>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -130,3 +130,4 @@ class App extends React.Component<AppProps, AppState> {
 }
 
 export default App;
+
