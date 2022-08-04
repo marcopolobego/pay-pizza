@@ -1,21 +1,122 @@
+$primary-yellow: #ffbe00;
+
 .user-card-wrapper{
  background: white;
  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
  min-height: 93px;
  display: flex;
+ gap: 14px;
  align-items: center;
  position: relative;
 
- .progress-bar-wrapper{
-  background-color: #ededed;
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  top: 0px;
-
-  .progress{
+ .img{
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-left: 21px;
+  overflow: hidden;
+  img{
+   width: 100%;
    height: 100%;
-   background-color: #ffbe00;
+   object-fit: cover;
   }
  }
+
+ .user-info{
+  flex-grow: 1;
+  font-family: 'Inter';
+  .name{
+   font-weight: bold;
+   font-size: 20px;
+   line-height: 25px;
+  }
+
+  .to-pay{
+   color: #6f6f6f;
+   font-size: 16px;
+   line-height: 20px;
+   font-weight: 400;
+
+   span{
+    font-size: 10px;
+   }
+  }
+
+  .progress-bar{
+   position: relative;
+   min-height: 14px;
+   background-color: #ededed;
+   margin: 5px 0px 3px;
+   border-radius: 3px;
+   overflow: hidden;
+
+   .progress{
+    position: absolute;
+    height: 100%;
+    background-color: $primary-yellow;
+    border-radius: 3px ;
+   }
+  }
+
+  .new-delays{
+   font-size: 10px;
+   opacity: 0;
+   transition: opacity 0.5s;
+
+   &.active{
+    opacity: 1;
+   }
+
+   &.green{
+    color: #339933;
+
+    &::before{
+     content: '+ ';
+    }
+   }
+
+   &.red{
+    color: #F07470;
+    &::before{
+     content: '- ';
+    }
+   }
+  }
+
+ }
+ 
+ .btns{
+  $width: 30px;
+  min-width: $width;
+  background: rgba(255, 190, 0, 0.5);  
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  font-size: 20px;
+
+  >div{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   user-select: none;
+  }
+
+  .btn{
+   width: $width;
+   height: $width;
+   color: orange;
+   cursor: pointer;
+  }
+
+  .count{
+   flex-grow: 1;
+   background-color: $primary-yellow;
+   border-radius: 5px;
+   color: white;
+
+  }
+ }
+
+
 }
