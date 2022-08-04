@@ -2,10 +2,14 @@ import "./App.scss";
 import ProgressBar from "./components/ProgressBar/ProgressBar";
 import UserCard from "./components/UserCard/UserCard";
 import * as React from "react";
-interface Player {
-  name: string;
-  delays: number;
+import axios from "axios";
+
+export interface Player {
+  _id: string;
+  user_name: string;
+  delays: Date[];
   toPay?: number;
+  percentage?: number;
 }
 
 interface AppProps {}
@@ -17,76 +21,40 @@ interface AppState {
 
 class App extends React.Component<AppProps, AppState> {
   state = {
-    players: [
-      {
-        name: "Marcos",
-        delays: 0,
-        toPay: 0,
-      },
-      {
-        name: "Marco",
-        delays: 1,
-        toPay: 0,
-      },
-      {
-        name: "Julio",
-        delays: 0,
-        toPay: 0,
-      },
-      {
-        name: "Alberto",
-        delays: 3,
-        toPay: 0,
-      },
-      {
-        name: "Omar",
-        delays: 5,
-        toPay: 0,
-      },
-      {
-        name: "Federico",
-        delays: 1,
-        toPay: 0,
-      },
-      {
-        name: "Charly",
-        delays: 2,
-        toPay: 0,
-      },
-      {
-        name: "Ignacio",
-        delays: 3,
-        toPay: 0,
-      },
-    ],
+    players: [],
     pizzasPrice: 1220,
   };
 
-  calculateAmount = (pizzasPrice: number) => {
-    const { players } = this.state;
-    this.setState({ pizzasPrice });
+  calculateAmount = (pizzasPrice: number, players: Player[]) => {
+    if (!players) return;
 
     const totalDelays = players
-      .map((p) => p.delays)
+      .map((p: Player) => p.delays.length)
       .reduce((p1: any, p2: any) => {
-        console.log("P1 is: ", p1, p2);
         return p1 + p2;
-      });
+      }, 0);
 
     const unitPrice = pizzasPrice / totalDelays;
 
     const toPay = players
-      .map((player): Player => {
-        player.toPay = player.delays * unitPrice || 0;
+      .map((player: Player): Player => {
+        const { delays } = player;
+        player.toPay = player.delays.length * unitPrice || 0;
+        player.percentage = (player.delays.length / totalDelays) * 100;
         return player;
       })
-      .sort((playerA: any, playerB: any) => playerB.delays - playerA.delays);
+      .sort(
+        (playerA: any, playerB: any) =>
+          playerB.delays.length - playerA.delays.length
+      );
 
-    this.setState({ players: toPay });
+    this.setState({ players: toPay, pizzasPrice });
   };
 
   componentDidMount() {
-    this.calculateAmount(this.state.pizzasPrice);
+    axios.get("/user").then(({ data }) => {
+      this.calculateAmount(this.state.pizzasPrice, data);
+    });
   }
 
   render() {
@@ -95,34 +63,12 @@ class App extends React.Component<AppProps, AppState> {
       <div className="wrapper">
         <h1>BeGo pizzas</h1>
         <div>
-          <div>Pizzas price:</div>
-          <input
-            value={this.state.pizzasPrice}
-            onChange={({ target }: React.SyntheticEvent) =>
-              this.calculateAmount(
-                parseFloat((target as HTMLInputElement).value)
-              )
-            }
-            type="number"
-          />
-        </div>
-        <div>
           <h2>Participants:</h2>
-
-          {players.map((player) => (
-            <div key={player.name} className="player-info">
-              <div>
-                {player.name}
-                <span className="delays">
-                  {player.delays} delay{player.delays === 1 ? "" : "s"}
-                </span>
-              </div>
-              <ProgressBar
-                percentage={(player.toPay / pizzasPrice) * 100}
-                label={`$${player.toPay.toFixed(1) || 0}`}
-              ></ProgressBar>
-            </div>
-          ))}
+          <div className="users">
+            {players.map((player: Player) => (
+              <UserCard key={player._id} userInfo={player}></UserCard>
+            ))}
+          </div>
         </div>
       </div>
     );
