@@ -22,7 +22,7 @@ interface AppState {
 class App extends React.Component<AppProps, AppState> {
   state = {
     players: [],
-    pizzasPrice: 1220,
+    pizzasPrice: 300,
   };
 
   calculateAmount = (pizzasPrice: number, players: Player[]) => {
