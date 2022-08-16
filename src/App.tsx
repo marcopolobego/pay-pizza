@@ -16,13 +16,13 @@ interface AppProps {}
 
 interface AppState {
   players: Player[];
-  pizzasPrice?: number;
+  pizzasPrice: number;
 }
 
 class App extends React.Component<AppProps, AppState> {
   state = {
     players: [],
-    pizzasPrice: 300,
+    pizzasPrice: 0,
   };
 
   calculateAmount = (pizzasPrice: number, players: Player[]) => {
@@ -51,10 +51,33 @@ class App extends React.Component<AppProps, AppState> {
     this.setState({ players: toPay, pizzasPrice });
   };
 
+  updatePizzasPrice = ({ target }: React.BaseSyntheticEvent) => {
+    this.calculateAmount(target.value, this.state.players);
+  };
+
+  pushNewPrice = () => {
+    axios
+      .post("/price-history/update-price", {
+        price: this.state.pizzasPrice,
+      })
+      .then((result: any) => {
+        console.log("Pizzas price was just pushed");
+      })
+      .catch((error) => {
+        console.log("ERROR: ", error);
+      });
+  };
+
   componentDidMount() {
-    axios.get("/user").then(({ data }) => {
-      this.calculateAmount(this.state.pizzasPrice, data);
-    });
+    axios
+      .get("/price-history/last-price")
+      .then(({ data }: any) => {
+        this.setState({ pizzasPrice: data.price });
+      })
+      .then(() => axios.get("/user"))
+      .then(({ data }: any) => {
+        this.calculateAmount(this.state.pizzasPrice, data);
+      });
   }
 
   render() {
@@ -62,6 +85,14 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <div className="wrapper">
         <h1>BeGo pizzas</h1>
+        <input
+          type="number"
+          value={pizzasPrice}
+          onChange={this.updatePizzasPrice}
+        />
+        <button style={{ marginLeft: "10px" }} onClick={this.pushNewPrice}>
+          Update Price
+        </button>
         <div>
           <h2>Participants:</h2>
           <div className="users">
