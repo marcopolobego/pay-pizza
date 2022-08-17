@@ -2,8 +2,14 @@ import * as React from "react";
 import "./UserCard.scss";
 import { Player } from "../../App";
 
+export interface NewUserDelays {
+  user_id: string;
+  num_delays: number;
+}
+
 interface UserCardProps {
   userInfo: Player;
+  onDelaysChange: Function;
 }
 
 interface UserCardState {
@@ -18,6 +24,12 @@ class UserCard extends React.Component<UserCardProps, UserCardState> {
   updateDelays = (delay: 1 | -1) => {
     const newDelays = this.state.newDelays + delay;
     this.setState({ newDelays });
+
+    const { onDelaysChange, userInfo } = this.props;
+    onDelaysChange({
+      user_id: userInfo._id,
+      num_delays: newDelays,
+    });
   };
 
   render() {

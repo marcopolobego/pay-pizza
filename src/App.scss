@@ -23,3 +23,28 @@ html { font-family: 'Inter', sans-serif; }
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
 }
+
+.save-btn{
+  background-color: #ffbe00;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 17px;
+  // display: inline-block;
+  text-align: end;
+  margin-top: 20px;
+  right: 0px;
+  position: relative;
+  border-radius: 8px;
+  text-align: end;
+  float: right;
+  transform: translateX(300px);
+  transition: transform 1s;
+  cursor: pointer;
+
+  &.active{
+    transform: translateX(0px);
+  }
+
+
+}
