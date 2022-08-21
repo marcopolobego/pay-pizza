@@ -1,5 +1,6 @@
 import "./App.scss";
 import ProgressBar from "./components/ProgressBar/ProgressBar";
+import Cards from "./components/Cards/Cards";
 import UserCard, { NewUserDelays } from "./components/UserCard/UserCard";
 import * as React from "react";
 import axios from "axios";
@@ -17,15 +18,15 @@ interface AppProps {}
 interface AppState {
   players: Player[];
   pizzasPrice: number;
-  newDelays: NewUserDelays[];
 }
 
 class App extends React.Component<AppProps, AppState> {
   state = {
     players: [],
     pizzasPrice: 0,
-    newDelays: [],
   };
+
+  private cardsRef: React.RefObject<Cards> = React.createRef<Cards>();
 
   calculateAmount = (pizzasPrice: number, players: Player[]) => {
     if (!players) return;
@@ -82,35 +83,14 @@ class App extends React.Component<AppProps, AppState> {
       });
   }
 
-  handleDelaysChanges = (change: NewUserDelays) => {
-    const { newDelays }: { newDelays: NewUserDelays[] } = this.state;
-    const user = newDelays.find(
-      (e: NewUserDelays) => change.user_id == e.user_id
-    );
-
-    if (!user) {
-      newDelays.push(change);
-      this.setState({ newDelays });
-      return;
-    }
-
-    if (change.num_delays != 0) {
-      user.num_delays = change.num_delays;
-    } else {
-      newDelays.splice(newDelays.indexOf(user), 1);
-    }
-
-    this.setState({ newDelays });
-  };
-
-  updateDelays = () => {
-    axios.put("/user/update-delays", this.state.newDelays).then(({ data }) => {
+  updateDelays = (delays: NewUserDelays[]) => {
+    axios.put("/user/update-delays", delays).then(({ data }) => {
       this.calculateAmount(this.state.pizzasPrice, data);
     });
   };
 
   render() {
-    const { players, pizzasPrice, newDelays } = this.state;
+    const { players, pizzasPrice } = this.state;
     return (
       <div className="wrapper">
         <h1>BeGo pizzas</h1>
@@ -124,22 +104,11 @@ class App extends React.Component<AppProps, AppState> {
         </button>
         <div>
           <h2>Participants:</h2>
-          <div className="users">
-            {players.map((player: Player) => (
-              <UserCard
-                key={player._id}
-                userInfo={player}
-                onDelaysChange={this.handleDelaysChanges}
-              ></UserCard>
-            ))}
-          </div>
-
-          <div
-            className={`save-btn ${newDelays.length && "active"}`}
-            onClick={this.updateDelays}
-          >
-            UPDATE DELAYS
-          </div>
+          <Cards
+            users={players}
+            ref={this.cardsRef}
+            updateDelays={this.updateDelays}
+          />
         </div>
       </div>
     );
