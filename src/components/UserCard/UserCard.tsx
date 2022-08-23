@@ -32,6 +32,16 @@ class UserCard extends React.Component<UserCardProps, UserCardState> {
     });
   };
 
+  clearDelays = () => {
+    const { onDelaysChange, userInfo } = this.props;
+
+    this.setState({ newDelays: 0 });
+    this.props.onDelaysChange({
+      user_id: userInfo._id,
+      num_delays: 0,
+    });
+  };
+
   render() {
     const { user_name, delays, toPay, percentage } = this.props.userInfo;
     const { newDelays } = this.state;

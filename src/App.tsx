@@ -86,6 +86,7 @@ class App extends React.Component<AppProps, AppState> {
   updateDelays = (delays: NewUserDelays[]) => {
     axios.put("/user/update-delays", delays).then(({ data }) => {
       this.calculateAmount(this.state.pizzasPrice, data);
+      this.cardsRef.current?.clearValuesToBeAdded();
     });
   };
 

@@ -2,7 +2,6 @@ import * as React from "react";
 import { Player } from "../../App";
 import UserCard, { NewUserDelays } from "../UserCard/UserCard";
 import "./Cards.scss";
-import axios from "axios";
 
 interface CardsProps {
   users: Player[];
@@ -21,7 +20,14 @@ class Cards extends React.Component<CardsProps, CardsState> {
   };
 
   clearValuesToBeAdded = () => {
-    console.log("calling clearValuesToBeAdded");
+    this.state.cardsRef.forEach(
+      ({ current: userCard }: React.RefObject<UserCard>) => {
+        console.log("User card: ");
+        userCard?.clearDelays();
+      }
+    );
+
+    this.setState({ newDelays: [] });
   };
 
   handleDelaysChanges = (change: NewUserDelays) => {
@@ -45,22 +51,27 @@ class Cards extends React.Component<CardsProps, CardsState> {
     this.setState({ newDelays });
   };
 
-  componentDidMount() {
-    const cardsRef = this.props.users.map(
-      () => React.createRef() as React.RefObject<UserCard>
-    );
-    this.setState({ cardsRef });
-    console.log("Refs are: ", this.state.cardsRef, cardsRef);
+  componentDidMount() {}
+
+  componentDidUpdate({ users }: CardsProps) {
+    if (users.length !== this.props.users.length) {
+      console.log("state is: ", this.state.newDelays);
+      const cardsRef = this.props.users.map(
+        () => React.createRef() as React.RefObject<UserCard>
+      );
+      this.setState({ cardsRef: cardsRef, newDelays: this.state.newDelays });
+    }
   }
 
   render() {
-    const { newDelays } = this.state;
+    const { newDelays, cardsRef } = this.state;
     const { users, updateDelays } = this.props;
     return (
       <div>
         <div className="users">
-          {users.map((player: Player) => (
+          {users.map((player: Player, i: number) => (
             <UserCard
+              ref={cardsRef[i]}
               key={player._id}
               userInfo={player}
               onDelaysChange={this.handleDelaysChanges}
