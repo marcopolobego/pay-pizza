@@ -34,17 +34,17 @@ class App extends React.Component<AppProps, AppState> {
       },
       {
         name: "Alberto",
-        delays: 2,
-        toPay: 0,
-      },
-      {
-        name: "Omar",
         delays: 3,
         toPay: 0,
       },
       {
+        name: "Omar",
+        delays: 5,
+        toPay: 0,
+      },
+      {
         name: "Federico",
-        delays: 0,
+        delays: 1,
         toPay: 0,
       },
       {
@@ -54,11 +54,11 @@ class App extends React.Component<AppProps, AppState> {
       },
       {
         name: "Ignacio",
-        delays: 2,
+        delays: 3,
         toPay: 0,
       },
     ],
-    pizzasPrice: 100,
+    pizzasPrice: 1220,
   };
 
   calculateAmount = (pizzasPrice: number) => {
@@ -74,15 +74,17 @@ class App extends React.Component<AppProps, AppState> {
 
     const unitPrice = pizzasPrice / totalDelays;
 
-    const toPay = players.map((player): Player => {
-      player.toPay = player.delays * unitPrice || 0;
-      return player;
-    }).sort((playerA: any, playerB: any) => playerB.delays - playerA.delays);
+    const toPay = players
+      .map((player): Player => {
+        player.toPay = player.delays * unitPrice || 0;
+        return player;
+      })
+      .sort((playerA: any, playerB: any) => playerB.delays - playerA.delays);
 
     this.setState({ players: toPay });
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.calculateAmount(this.state.pizzasPrice);
   }
 
