@@ -1,4 +1,5 @@
 import "./App.scss";
+import "./Print.scss";
 import ProgressBar from "./components/ProgressBar/ProgressBar";
 import Cards from "./components/Cards/Cards";
 import UserCard, { NewUserDelays } from "./components/UserCard/UserCard";

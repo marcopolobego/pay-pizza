@@ -1,0 +1,19 @@
+@media print {
+  .wrapper {
+    button {
+      display: none;
+    }
+
+    .users {
+      .zero {
+        display: none;
+      }
+    }
+
+    .user-card-wrapper {
+      .btn {
+        display: none;
+      }
+    }
+  }
+}

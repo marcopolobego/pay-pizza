@@ -57,7 +57,7 @@ class UserCard extends React.Component<UserCardProps, UserCardState> {
       Math.abs(newDelays) +
       " delays";
     return (
-      <div className="user-card-wrapper">
+      <div className={`user-card-wrapper ${delays.length ? '' : 'zero'}`}>
         <div className="img">
           <img src={ avatar } alt="" />
         </div>
