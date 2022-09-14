@@ -15,7 +15,11 @@ html { font-family: 'Inter', sans-serif; }
 }
 
 .wrapper{
-  margin: 0px 50px;
+  padding: 0px 32px 32px;
+
+  @media only screen and (min-width: 768px) {
+    padding: 0px 50px;
+  }
 }
 
 .save-btn{
@@ -24,21 +28,30 @@ html { font-family: 'Inter', sans-serif; }
   font-weight: 700;
   font-size: 16px;
   padding: 17px;
-  // display: inline-block;
   text-align: end;
-  margin-top: 20px;
-  right: 0px;
-  position: relative;
+  right: 16px;
+  top: 16px;
   border-radius: 8px;
   text-align: end;
-  float: right;
-  transform: translateX(300px);
+  transform: translateY(-300px);
   transition: transform 1s;
   cursor: pointer;
+  position: fixed;
 
   &.active{
-    transform: translateX(0px);
+    transform: translateY(0);
   }
 
+  @media only screen and (min-width: 768px) {
+    top: unset;
+    right: 0;
+    bottom: -16px;
+    transform: translateY(100%) translateX(300px);
+    position: absolute;
+
+    &.active {
+      transform: translateY(100%) translateX(0);
+    }
+  }
 
 }

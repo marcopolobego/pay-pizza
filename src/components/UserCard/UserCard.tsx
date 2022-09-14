@@ -43,7 +43,7 @@ class UserCard extends React.Component<UserCardProps, UserCardState> {
   };
 
   render() {
-    const { user_name, delays, toPay, percentage } = this.props.userInfo;
+    const { user_name, delays, toPay, percentage, avatar = 'https://picsum.photos/100/100' } = this.props.userInfo;
     const { newDelays } = this.state;
 
     const delaysClass =
@@ -59,7 +59,7 @@ class UserCard extends React.Component<UserCardProps, UserCardState> {
     return (
       <div className="user-card-wrapper">
         <div className="img">
-          <img src="https://picsum.photos/100/100" alt="" />
+          <img src={ avatar } alt="" />
         </div>
 
         <div className="user-info">

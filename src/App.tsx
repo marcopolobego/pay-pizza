@@ -11,6 +11,7 @@ export interface Player {
   delays: Date[];
   toPay?: number;
   percentage?: number;
+  avatar?: string;
 }
 
 interface AppProps {}
@@ -104,7 +105,7 @@ class App extends React.Component<AppProps, AppState> {
           Update Price
         </button>
         <div>
-          <h2>Participants:</h2>
+          <h2>Participants</h2>
           <Cards
             users={players}
             ref={this.cardsRef}

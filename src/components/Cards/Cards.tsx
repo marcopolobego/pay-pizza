@@ -67,7 +67,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
     const { newDelays, cardsRef } = this.state;
     const { users, updateDelays } = this.props;
     return (
-      <div>
+      <div  className="cards">
         <div className="users">
           {users.map((player: Player, i: number) => (
             <UserCard
@@ -80,7 +80,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
         </div>
 
         <div
-          className={`save-btn ${newDelays.length && "active"}`}
+          className={`save-btn ${newDelays.length && "active" || ""}`}
           onClick={() => updateDelays(newDelays)}
         >
           UPDATE DELAYS
